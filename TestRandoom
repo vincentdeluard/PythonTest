@@ -1,0 +1,38 @@
+import numpy as np
+import random
+import csv
+
+def generate_random_returns(n):
+  """Generates a list of n randomly distributed returns."""
+  returns = []
+  for _ in range(n):
+    returns.append(random.uniform(-1, 1))
+  return returns
+
+def get_correlation_coefficient(x, y):
+  """Returns the correlation coefficient between two lists."""
+  n = len(x)
+  sum_xy = 0
+  sum_x = 0
+  sum_y = 0
+  for i in range(n):
+    sum_xy += x[i] * y[i]
+    sum_x += x[i]
+    sum_y += y[i]
+  return sum_xy / (n * sum_x * sum_y)
+
+def main():
+  """Generates two series of randomly distributed stock returns with a correlation coefficient of 0.25 and exports the two series as a CSV file."""
+  n = 100
+  x = generate_random_returns(n)
+  y = generate_random_returns(n)
+  correlation_coefficient = get_correlation_coefficient(x, y)
+
+  with open("returns.csv", "w") as csvfile:
+    writer = csv.writer(csvfile, delimiter=",")
+    writer.writerow(["x", "y"])
+    for i in range(n):
+      writer.writerow([x[i], y[i]])
+
+if __name__ == "__main__":
+  main()
